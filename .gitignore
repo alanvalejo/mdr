@@ -1,0 +1,18 @@
+# Ignore everything
+*
+
+# But not these files...
+!.gitignore
+!README.md
+!COPYING.md
+!args
+!input
+!args/*
+!mdr-levels.py
+!mdr-vertices.py
+!mob.so
+!helper.so
+!helperigraph.so
+!similarity.so
+!args.so
+!timing.so

@@ -1,0 +1,9 @@
+# Ignore everything
+*
+
+# But not these files...
+!.gitignore
+!cstr.arff
+!cstr.dat
+!cstr-levels.json
+!cstr-vertices.json

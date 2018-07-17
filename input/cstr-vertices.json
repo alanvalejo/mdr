@@ -1,0 +1,23 @@
+{
+	"vertices": [
+		16726,
+		22016
+	],
+	"max_vertices": 300,
+	"matching":	"greedy_seed_twohops",
+	"similarity": "weighted_common_neighbors",
+	"directory": "output",
+	"output": "cstr",
+	"input": "input/cstr.dat",
+	"save_conf": true,
+	"save_ncol": true,
+	"save_gml": true,
+	"save_source": true,
+	"save_predecessor": true,
+	"save_sucessor": true,
+	"show_timing": true,
+	"save_timing": true,
+	"save_hierarchy": false,
+	"save_adjacency": true,
+	"unique_key": false
+}

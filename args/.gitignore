@@ -1,0 +1,7 @@
+# Ignore everything
+*
+
+# But not these files...
+!.gitignore
+!mdr-vertices.json
+!mdr-levels.json
