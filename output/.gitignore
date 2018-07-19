@@ -1,0 +1,9 @@
+# Ignore everything
+*
+
+# But not these files...
+!.gitignore
+!iris-fa.png
+!iris-pca.png
+!iris-mdr-mob-rgmb.png
+!iris-mdr-mob-gmb.png
