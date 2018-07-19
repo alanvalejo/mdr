@@ -1,97 +1,95 @@
-## MOb (Multilevel framework to bipartite network)
+## Mdr (Multilevel dimensionality reduction)
 
 **About**
 
-This is an Python implementation of multilevel framework for handling bipartite networks, published by Alan et. al. [1]. The implementation is based on multilevel approach for combinatorial optimization that can perform in bipartite context. The aim to reduce the cost of an optimization process by applying it to a reduced or coarsened version of the original bipartite network.
+This is an Python implementation of multilevel dimensionality reduction, published by Alan et. al. [1]. The implementation is based on multilevel approach for combinatorial optimization that can perform in bipartite context.
 
 **Download**
 
-* You can download the MOb software in http://www.alanvalejo.com.br/software?name=MOb
+* You can download the Mdr software in http://www.alanvalejo.com.br/software?name=Mdr
 
 **Usage**
 
 > Coarsening by levels. The user defines the number of levels and the reduction factor at each level.
 
-	$ python coarsening-level.py [options]
+	$ python mdr-mob.py [options]
+	$ python mdr-opm.py [options]
 
-> Coarsening until a max number of vertices. The process will automatically control the total number of levels and the reduction factor at each level.
-
-	$ python coarsening-max-vertices.py [options]
-
-|Option            |Domain           |Default   |Description                          |
-|------------------|-----------------|----------|-------------------------------------|
-|-f --filename     |string [FILE]    |None      |name of the FILES to be loaded       |
-|-v --vertices     |int              |None      |number of vertices for each layer    |
-|-d --directory    |string [DIR]     |'.'       |directory of output FILEs            |
-|-o --output       |string [FILE]    |filename  |name of the FILE to be save          |
-|-r --rf           |array in (0 0.5] |[0.5 0.5] |reduction factor for each layer      |
-|-m --ml           |array in [0 n]   |[3 3]     |max levels for each layer            |
-|-mv --max_vertices|array in [0 n]   |None      |max number of vertices for each layer; supress -r and -m parameters|
-|-c --matching     |string           |None      |matching method for each layer       |
-|-s --similarity   |string           |None      |similarity measure for each layer    |
-|-cf --conf        |string [FILE]    |None      |name of the config FILE to be loaded |
-|--save_conf       |boolean          |false     |save config file                     |
-|--save_ncol       |boolean          |false     |save ncol format                     |
-|--save_gml        |boolean          |false     |save gml format                      |
-|--save_source     |boolean          |false     |save source reference                |
-|--save_predecessor|boolean          |false     |save predecessor reference           |
-|--save_hierarchy  |boolean          |false     |save all levels of hierarchy         |
-|--save_timing     |boolean          |false     |save timing in json                  |
-|--show_timing     |boolean          |false     |show timing                          |
-|--unique_key      |boolean          |false     |output date and time as unique_key   |
+| Option             | Domain        | Default   | Description                          |
+| ------------------ | ------------- | --------- | ------------------------------------ |
+| -in --input        | string [FILE] | None      | name of the input file to be loaded  |
+| -dir --directory   | string [DIR]  | '.'       | directory of output file             |
+| -out --output      | string [FILE] | filename  | name of the file to be save          |
+| -cnf --conf        | string [FILE] | None      | name of the config file to be loaded |
+| -v --vertices      | int           | None      | number of vertices for each layer    |
+| -r --rf            | (0 0.5]       | [0.5 0.5] | reduction factor for each layer      |
+| -m --ml            | [0 n]         | [3 3]     | max levels for each layer            |
+| -c --matching      | string        | [hem hem] | matching method for each layer       |
+| -s --similarity    | string        | None      | similarity measure for each layer    |
+| --save_conf        | boolean       | false     | save config file                     |
+| --save_ncol        | boolean       | false     | save ncol format                     |
+| --save_gml         | boolean       | false     | save gml format                      |
+| --save_source      | boolean       | false     | save source reference                |
+| --save_predecessor | boolean       | false     | save predecessor reference           |
+| --save_successor   | boolean       | false     | save successor reference             |
+| --save_hierarchy   | boolean       | false     | save all levels of hierarchy         |
+| --save_adjacency   | boolean       | false     | save weighted adjacency matrix       |
+| --save_timing_json | boolean       | False     | save timing in json                  |
+| --save_timing_csv  | boolean       | False     | save timing in csv                   |
+| --show_timing      | boolean       | false     | show timing                          |
+| --unique_key       | boolean       | false     | output date and time as unique_key   |
 
 The matching strategy selects the best pairs of vertices for matching. Formally, a matching $M$ can be denoted by a set of pairwise non-adjacent edges, i.e., a set of edges with no common vertices. In this software it is possible use two matching methods:
 
-> * Greed Rand Twohopes
-> * Greed Twohopes
+For mdr-mob.py use:
+* Greed Rand Twohopes
+* Greed Twohopes
+
+For mdr-opm.py use:
+* Hem
+* Lem
+* Rm
 
 The matching strategy is, therefore, a key component of an effective multilevel optimization, as it leads to a good hierarchy of coarsened networks for supporting the local search algorithm. A poor choice of the matching impairs the multilevel process, hence, the performance of the local search algorithm. In this software it is possible use some similarity measures:
 
-> * Common Neighbors
-> * Weighted Common Neighbors
-> * Preferential Attachment
-> * Jaccard
-> * Salton
-> * Adamic Adar
-> * Resource Allocation
-> * Sorensen
-> * Hub Promoted
-> * Hub Depressed
-> * Leicht Holme Newman
+For both scripts, mdr-mob.py and mdr-opm.py you can use:
+* Common Neighbors
+* Weighted Common Neighbors
+* Preferential Attachment
+* Jaccard
+* Salton
+* Adamic Adar
+* Resource Allocation
+* Sorensen
+* Hub Promoted
+* Hub Depressed
+* Leicht Holme Newman
 
 **Quick benchmark results**
 
 We test a scientific collaboration network (Cond-Mat), available [here](https://toreopsahl.com/datasets/#newman2001), which is based on preprints posted in the Condensed Matter section (arXiv) between 1995 and 1999 and has 38.742 vertices (authors and papers) and 58.595 edges (authorship) among different types of vertices.
 
-	$ python coarsening-level.py -f input/condmat1995to1999.ncol -v 16726 22016 -m 1 1 -r 0.5 0.5 --show_timing
+	# Mdr using Greed Rand Twohopes coarsening algorithm
+	$ python mdr-mob.py -cnf input/iris-mdr-rgmb.json
+	$ python plot2Dmdr.py
 
-|Snippet   |Time [m]|Time [s]|
-|----------|--------|--------|
-|Load      |0.0     |0.4741  |
-|Coarsening|0.0     |0.7274  |
-|Save      |0.0     |0.1087  |
+![](output/iris-mdr-mob-rgmb.png)
 
-	$ python coarsening-level.py -f input/condmat1995to1999.ncol -v 16726 22016 -m 2 2 -r 0.5 0.5 --show_timing
+	# Mdr using Greed Twohopes coarsening algorithm
+	$ python mdr-mob.py -cnf input/iris-mdr-gmb.json
+	$ python plot2Dmdr.py
 
-|Snippet   |Time [m]|Time [s]|
-|----------|--------|--------|
-|Load      |0.0     |0.4807  |
-|Coarsening|0.0     |1.1317  |
-|Save      |0.0     |0.0340  |
+![](output/iris-mdr-mob-gmb.png)
 
+	# Principal component analysis (PCA)
+	$ python plot2Dpca.py
 
-	$ python coarsening-level.py -f input/condmat1995to1999.ncol -v 16726 22016 -m 3 3 -r 0.5 0.5 --show_timing
+![](output/iris-pca.png)
 
-|Snippet   |Time [m]|Time [s]|
-|----------|--------|--------|
-|Load      |0.0     |0.4830  |
-|Coarsening|0.0     |1.3437  |
-|Save      |0.0     |0.0467  |
+	# Feature Agglomeration
+	$ python plot2Dfa.py
 
-
-You can use a config file (.json) to specify the parameters.
-
-    $ python coarsening-level.py -cf input/condmat9599R16726C22016.json
+![](output/iris-fa.png)
 
 **Dependencies**
 

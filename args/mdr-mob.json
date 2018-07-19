@@ -146,6 +146,24 @@
 		"default": false,
 		"help": "save hierarchy file"
 	},
+	"slc": {
+		"long": "skip_last_column",
+		"required": false,
+		"dest": "skip_last_column",
+		"action": "store_true",
+		"default": false,
+		"help": "skip last column"
+	},
+	"skr": {
+		"long": "skip_rows",
+		"required": false,
+		"dest": "skip_rows",
+		"type": "int",
+		"nargs": "?",
+		"action": "store",
+		"default": 0,
+		"help": "skip rows"
+	},
 	"sadj": {
 		"long": "save_adjacency",
 		"required": false,

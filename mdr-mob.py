@@ -63,7 +63,7 @@ def main():
 	with timing.timeit_context_add('Pre-processing'):
 
 		# Setup parse options command line
-		parser = args.setup_parser('args/mdr-levels.json')
+		parser = args.setup_parser('args/mdr-mob.json')
 		options = parser.parse_args()
 		args.update_json(options)
 		args.check_output(options)
@@ -76,8 +76,10 @@ def main():
 			sys.exit(1)
 
 		# Create default values for optional parameters
-		if options.max_vertices is None:
-			options.max_vertices = options.vertices[1]
+		if options.reduction_factor is None:
+			options.reduction_factor = 0.5
+		if options.max_levels is None:
+			options.max_levels = 3
 		if options.matching is None:
 			options.matching = 'greedy_seed_twohops'
 		if options.similarity is None:
@@ -96,62 +98,45 @@ def main():
 			sys.exit(1)
 
 		# Validation of similarity measure
-		valid_similarity = ['common_neighbors', 'weighted_common_neighbors', 'salton', 'preferential_attachment', 'jaccard', 'adamic_adar', 'resource_allocation', 'sorensen', 'hub_promoted', 'hub_depressed', 'leicht_holme_newman']
+		valid_similarity = ['common_neighbors', 'weighted_common_neighbors', 'salton', 'preferential_attachment', 'jaccard', 'adamic_adar', 'resource_allocation', 'sorensen', 'hub_promoted', 'hub_depressed', 'leicht_holme_newman', 'weighted_jaccard']
 		if options.similarity.lower() not in valid_similarity:
 			log.warning('Similarity misure is unvalid.')
 			sys.exit(1)
 
 		options.vertices = map(int, options.vertices)
-		options.max_vertices = int(options.max_vertices)
+		options.max_levels = int(options.max_levels)
+		options.reduction_factor = float(options.reduction_factor)
 
 	# Load bipartite graph
 	with timing.timeit_context_add('Load'):
 		if options.extension == '.arff':
 			graph = helperigraph.load_csr(options.input)
 		elif options.extension == '.dat':
-			graph = helperigraph.load_dat(options.input)
+			graph = helperigraph.load_dat(options.input, skip_last_column=options.skip_last_column, skip_rows=options.skip_rows)
 		graph['level'] = 0
 
 	# Coarsening
 	with timing.timeit_context_add('Coarsening'):
 		hierarchy_graphs = []
 		hierarchy_levels = []
-		hierarchy_rf = {k: [] for k in range(len(options.vertices))}
-		done = [True] * len(options.vertices)
-		while any(done):
-			done = [False] * len(options.vertices)
+		while not graph['level'] == options.max_levels:
 
 			matching = range(graph.vcount())
 			levels = graph['level']
 
-			for reduction_factor in [0.5, 0.4, 0.3, 0.2, 0.1]:
-				new_vertices = graph['vertices'][1] - (reduction_factor * graph['vertices'][1])
-				if new_vertices >= options.max_vertices:
-					hierarchy_rf[1].append(reduction_factor)
-					done[1] = True
-					break
+			levels += 1
+			graph['similarity'] = getattr(Similarity(graph, graph['adjlist']), options.similarity)
+			start = sum(graph['vertices'][0:1])
+			end = sum(graph['vertices'][0:1 + 1])
+			matching_method = getattr(graph, options.matching)
+			matching_method(range(start, end), matching, reduction_factor=options.reduction_factor)
 
-			if done[1]:
-				levels += 1
-				graph['similarity'] = getattr(Similarity(graph, graph['adjlist']), options.similarity)
-				start = sum(graph['vertices'][0:1])
-				end = sum(graph['vertices'][0:1 + 1])
-				matching_method = getattr(graph, options.matching)
-				matching_method(range(start, end), matching, reduction_factor=reduction_factor)
-
-			if any(done):
-				coarse = graph.contract(matching)
-				coarse['level'] = levels
-				if coarse['vertices'] == graph['vertices']:
-					break
-				graph = coarse
-				if options.save_hierarchy:
-					hierarchy_graphs.append(graph)
-					hierarchy_levels.append(levels)
-
-	if not options.save_hierarchy:
-		hierarchy_graphs.append(graph)
-		hierarchy_levels.append(levels)
+			coarse = graph.contract(matching)
+			coarse['level'] = levels
+			graph = coarse
+			if options.save_hierarchy or (graph['level'] == options.max_levels):
+				hierarchy_graphs.append(graph)
+				hierarchy_levels.append(levels)
 
 	# Save
 	with timing.timeit_context_add('Save'):
@@ -169,7 +154,8 @@ def main():
 					d['source_vertices'] = options.vertices[0] + options.vertices[1]
 					d['edges'] = graph.ecount()
 					d['vertices'] = graph.vcount()
-					d['max_vertices'] = options.max_vertices
+					d['reduction_factor'] = options.reduction_factor
+					d['max_levels'] = options.max_levels
 					d['similarity'] = options.similarity
 					d['matching'] = options.matching
 					d['levels'] = levels
@@ -199,7 +185,7 @@ def main():
 				numpy.savetxt(output + '-' + str(index) + '.weight', graph.vs['weight'], fmt='%d')
 
 			if options.save_adjacency:
-				numpy.savetxt(output + '-' + str(index) + '.dat', helper.biajcent_matrix(graph), fmt='%d')
+				numpy.savetxt(output + '-' + str(index) + '.dat', helperigraph.biajcent_matrix(graph), fmt='%.2f')
 
 			if options.save_gml:
 				del graph['adjlist']

@@ -63,7 +63,7 @@ def main():
 	with timing.timeit_context_add('Pre-processing'):
 
 		# Setup parse options command line
-		parser = args.setup_parser('args/mdr-levels.json')
+		parser = args.setup_parser('args/mdr-mob.json')
 		options = parser.parse_args()
 		args.update_json(options)
 		args.check_output(options)
@@ -81,12 +81,12 @@ def main():
 		if options.max_levels is None:
 			options.max_levels = 3
 		if options.matching is None:
-			options.matching = 'greedy_seed_twohops'
+			options.matching = 'hem'
 		if options.similarity is None:
 			options.similarity = 'weighted_common_neighbors'
 
 		# Validation of matching method
-		valid_matching = ['greedy_seed_twohops', 'greedy_twohops']
+		valid_matching = ['hem', 'lem', 'rm']
 		if options.matching.lower() not in valid_matching:
 			log.warning('Matching method is unvalid.')
 			sys.exit(1)
@@ -98,7 +98,7 @@ def main():
 			sys.exit(1)
 
 		# Validation of similarity measure
-		valid_similarity = ['common_neighbors', 'weighted_common_neighbors', 'salton', 'preferential_attachment', 'jaccard', 'adamic_adar', 'resource_allocation', 'sorensen', 'hub_promoted', 'hub_depressed', 'leicht_holme_newman']
+		valid_similarity = ['common_neighbors', 'weighted_common_neighbors', 'salton', 'preferential_attachment', 'jaccard', 'adamic_adar', 'resource_allocation', 'sorensen', 'hub_promoted', 'hub_depressed', 'leicht_holme_newman', 'weighted_jaccard']
 		if options.similarity.lower() not in valid_similarity:
 			log.warning('Similarity misure is unvalid.')
 			sys.exit(1)
@@ -112,7 +112,7 @@ def main():
 		if options.extension == '.arff':
 			graph = helperigraph.load_csr(options.input)
 		elif options.extension == '.dat':
-			graph = helperigraph.load_dat(options.input)
+			graph = helperigraph.load_dat(options.input, skip_last_column=options.skip_last_column, skip_rows=options.skip_rows)
 		graph['level'] = 0
 
 	# Coarsening
@@ -128,8 +128,10 @@ def main():
 			graph['similarity'] = getattr(Similarity(graph, graph['adjlist']), options.similarity)
 			start = sum(graph['vertices'][0:1])
 			end = sum(graph['vertices'][0:1 + 1])
-			matching_method = getattr(graph, options.matching)
-			matching_method(range(start, end), matching, reduction_factor=options.reduction_factor)
+			vertices = range(start, end)
+			one_mode_graph = graph.weighted_one_mode_projection(vertices)
+			matching_method = getattr(one_mode_graph, options.matching)
+			matching_method(matching, reduction_factor=options.reduction_factor)
 
 			coarse = graph.contract(matching)
 			coarse['level'] = levels
@@ -185,7 +187,7 @@ def main():
 				numpy.savetxt(output + '-' + str(index) + '.weight', graph.vs['weight'], fmt='%d')
 
 			if options.save_adjacency:
-				numpy.savetxt(output + '-' + str(index) + '.dat', helper.biajcent_matrix(graph), fmt='%d')
+				numpy.savetxt(output + '-' + str(index) + '.dat', helperigraph.biajcent_matrix(graph), fmt='%.2f')
 
 			if options.save_gml:
 				del graph['adjlist']
