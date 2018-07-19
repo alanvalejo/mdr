@@ -63,7 +63,7 @@ def main():
 	with timing.timeit_context_add('Pre-processing'):
 
 		# Setup parse options command line
-		parser = args.setup_parser('args/mdr-mob.json')
+		parser = args.setup_parser('args/mdr.json')
 		options = parser.parse_args()
 		args.update_json(options)
 		args.check_output(options)
@@ -207,8 +207,10 @@ def main():
 
 	if options.show_timing:
 		timing.print_tabular()
-	if options.save_timing:
-		timing.save_json(output + '.timing')
+	if options.save_timing_csv:
+		timing.save_csv(output + '-timing.csv')
+	if options.save_timing_json:
+		timing.save_json(output + '-timing.csv')
 
 
 if __name__ == "__main__":

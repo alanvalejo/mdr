@@ -106,6 +106,14 @@
 		"default": false,
 		"help": "save gml file"
 	},
+	"sn": {
+		"long": "save_ncol",
+		"required": false,
+		"dest": "save_ncol",
+		"action": "store_true",
+		"default": false,
+		"help": "save ncol"
+	},
 	"ssrc": {
 		"long": "save_source",
 		"required": false,

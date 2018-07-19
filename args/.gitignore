@@ -3,4 +3,4 @@
 
 # But not these files...
 !.gitignore
-!mdr-mob.json
+!mdr.json
