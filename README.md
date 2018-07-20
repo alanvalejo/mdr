@@ -6,7 +6,7 @@ This is an Python implementation of multilevel dimensionality reduction, publish
 
 **Download**
 
-* You can download the Mdr software in http://www.alanvalejo.com.br/software?name=Mdr
+* You can download the Mdr software in http://www.alanvalejo.com.br/software?name=mdr
 
 **Usage**
 
