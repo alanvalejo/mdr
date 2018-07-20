@@ -69,27 +69,40 @@ For both scripts, mdr-mob.py and mdr-opm.py you can use:
 
 We test a scientific collaboration network (Cond-Mat), available [here](https://toreopsahl.com/datasets/#newman2001), which is based on preprints posted in the Condensed Matter section (arXiv) between 1995 and 1999 and has 38.742 vertices (authors and papers) and 58.595 edges (authorship) among different types of vertices.
 
-	# Mdr using Greed Rand Twohopes coarsening algorithm
-	$ python mdr-mob.py -cnf input/iris-mdr-rgmb.json
-	$ python plot2Dmdr.py
-
-![](output/iris-mdr-mob-rgmb.png)
+	# Mdr using Greed Rand Twohopes coarsening algorithm (Execute more time to find the best result)
+	$ python mdr-mob.py -cnf input/iris-mdr-rgmb.json; python plot2Dmdr.py iris
 
 	# Mdr using Greed Twohopes coarsening algorithm
-	$ python mdr-mob.py -cnf input/iris-mdr-gmb.json
-	$ python plot2Dmdr.py
-
-![](output/iris-mdr-mob-gmb.png)
+	$ python mdr-mob.py -cnf input/wine-mdr-gmb.json; python plot2Dmdr.py wine
+	$ python mdr-mob.py -cnf input/breast-cancer-mdr-gmb.json; python plot2Dmdr.py breast-cancer
 
 	# Principal component analysis (PCA)
-	$ python plot2Dpca.py
-
-![](output/iris-pca.png)
+	$ python plot2D.py pca iris
+	$ python plot2D.py pca wine
+	$ python plot2D.py pca breast-cancer
 
 	# Feature Agglomeration
-	$ python plot2Dfa.py
+	$ python plot2D.py fa iris
+	$ python plot2D.py fa wine
+	$ python plot2D.py fa breast-cancer
 
-![](output/iris-fa.png)
+**Iris**
+
+| Mdr                      | Principal component analysis (PCA) | Feature Agglomeration   |
+| ------------------------ | ---------------------------------- | ----------------------- |
+| ![](output/iris-mdr.png) | ![](output/iris-pca.png)           | ![](output/iris-fa.png) |
+
+**Wine**
+
+| Mdr                      | Principal component analysis (PCA) | Feature Agglomeration   |
+| ------------------------ | ---------------------------------- | ----------------------- |
+| ![](output/wine-mdr.png) | ![](output/wine-pca.png)           | ![](output/wine-fa.png) |
+
+**Breast Cancer**
+
+| Mdr                               | Principal component analysis (PCA) | Feature Agglomeration            |
+| --------------------------------- | ---------------------------------- | -------------------------------- |
+| ![](output/breast-cancer-mdr.png) | ![](output/breast-cancer-pca.png)  | ![](output/breast-cancer-fa.png) |
 
 **Dependencies**
 

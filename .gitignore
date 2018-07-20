@@ -17,6 +17,5 @@
 !similarity.so
 !args.so
 !timing.so
-!plot2Dfa.py
-!plot2Dpca.py
+!plot2D.py
 !plot2Dmdr.py

@@ -1,15 +1,15 @@
 {
 	"vertices": [
-		150,
-		4
+		178,
+		13
 	],
 	"reduction_factor": 0.5,
-	"max_levels": 1,
-	"matching":	"greedy_seed_twohops",
+	"max_levels": 3,
+	"matching":	"greedy_twohops",
 	"similarity": "weighted_common_neighbors",
 	"directory": "output",
-	"output": "iris-mdr-mob-rgmb",
-	"input": "input/iris.dat",
+	"output": "wine-mdr-mob-gmb",
+	"input": "input/wine.dat",
 	"save_conf": false,
 	"save_ncol": false,
 	"save_gml": false,

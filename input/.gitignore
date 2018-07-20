@@ -5,5 +5,10 @@
 !.gitignore
 !iris.labels
 !iris.dat
-!iris-mdr-gmb.json
 !iris-mdr-rgmb.json
+!wine.labels
+!wine.dat
+!wine-mdr-gmb.json
+!breast-cancer.labels
+!breast-cancer.dat
+!breast-cancer-mdr-gmb.json
