@@ -3,6 +3,7 @@ from sklearn import datasets
 from sklearn.decomposition import PCA
 import matplotlib.patches as mpatches
 from sklearn.cluster import FeatureAgglomeration
+from sklearn.decomposition import TruncatedSVD
 import sys
 
 if sys.argv[2] == 'iris':
@@ -19,6 +20,8 @@ print data.data.shape
 
 if sys.argv[1] == 'pca':
 	X_reduced = PCA(n_components=2).fit_transform(data.data)
+elif sys.argv[1] == 'lsa':
+	X_reduced = TruncatedSVD(n_components=2, n_iter=7, random_state=42).fit_transform(data.data)
 else:
 	X_reduced = FeatureAgglomeration(n_clusters=2).fit_transform(data.data)
 
@@ -47,6 +50,7 @@ axes.spines['top'].set_visible(False)
 axes.spines['bottom'].set_visible(False)
 axes.tick_params(axis='y', which='both', length=5, labelsize=15)
 axes.tick_params(axis='x', which='both', length=5, labelsize=15)
+
 # cbar = plt.colorbar(ticks=[0, 1, 2], format=formatter)
 # cbar.ax.tick_params(labelsize=15)
 # handles, labels = axes.get_legend_handles_labels()
@@ -64,6 +68,6 @@ recs = []
 for i in range(0, len(class_colours)):
 	recs.append(mpatches.Circle((0, 0), fc=class_colours[i], alpha=0.6))
 leg_param = dict(prop={'size': 16}, ncol=1, fancybox=True, shadow=False, frameon=False)
-axes.legend(recs, classes, loc='upper left', **leg_param)
+axes.legend(recs, classes, loc='best', **leg_param)
 
 plt.savefig('output/' + sys.argv[2] + '-' + sys.argv[1] + '.png', dpi=100, bbox_inches='tight', transparent=False, pad_inches=0)

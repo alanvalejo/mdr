@@ -11,9 +11,9 @@ In coarsening strategy a sequence (or hierarchy) of smaller networks is
 constructed from the original network, such that $|V_0| > |V_1| > ... > |V_N|$.
 Such a hierarchy represents the network on multiple scales.
 
-This file is part of MOB.
+This file is part of Mdr.
 
-MOB is a free software and non-commercial use only: you can be use it for
+Mdr is a free software and non-commercial use only: you can be use it for
 creating unlimited applications, distribute in binary or object form only,
 modify source-code and distribute modifications (derivative works). Please,
 giving credit to the author by citing the papers. License will expire in 2018,
@@ -31,16 +31,15 @@ Required:
 	.. _numpy: http://www.numpy.org/
 """
 
-import args
 import sys
-import logging
 import json
 import numpy
-import helper
-import helperigraph
 
-from timing import Timing
-from similarity import Similarity
+import models.args as args
+import models.helper as helper
+import models.helperigraph as helperigraph
+from models.timing import Timing
+from models.similarity import Similarity
 
 __maintainer__ = 'Alan Valejo'
 __author__ = 'Alan Valejo'

@@ -86,23 +86,28 @@ We test a scientific collaboration network (Cond-Mat), available [here](https://
 	$ python plot2D.py fa wine
 	$ python plot2D.py fa breast-cancer
 
+	# Feature Agglomeration
+	$ python plot2D.py lsa iris
+	$ python plot2D.py lsa wine
+	$ python plot2D.py lsa breast-cancer
+
 **Iris**
 
-| Mdr                      | Principal component analysis (PCA) | Feature Agglomeration   |
-| ------------------------ | ---------------------------------- | ----------------------- |
-| ![](output/iris-mdr.png) | ![](output/iris-pca.png)           | ![](output/iris-fa.png) |
+| Mdr                      | Principal component analysis (PCA) | Feature Agglomeration   | Truncated SVD (aka LSA)  |
+| ------------------------ | ---------------------------------- | ----------------------- | ------------------------ |
+| ![](output/iris-mdr.png) | ![](output/iris-pca.png)           | ![](output/iris-fa.png) | ![](output/iris-lsa.png) |
 
 **Wine**
 
-| Mdr                      | Principal component analysis (PCA) | Feature Agglomeration   |
-| ------------------------ | ---------------------------------- | ----------------------- |
-| ![](output/wine-mdr.png) | ![](output/wine-pca.png)           | ![](output/wine-fa.png) |
+| Mdr                      | Principal component analysis (PCA) | Feature Agglomeration   | Truncated SVD (aka LSA)  |
+| ------------------------ | ---------------------------------- | ----------------------- | ------------------------ |
+| ![](output/wine-mdr.png) | ![](output/wine-pca.png)           | ![](output/wine-fa.png) | ![](output/wine-lsa.png) |
 
 **Breast Cancer**
 
-| Mdr                               | Principal component analysis (PCA) | Feature Agglomeration            |
-| --------------------------------- | ---------------------------------- | -------------------------------- |
-| ![](output/breast-cancer-mdr.png) | ![](output/breast-cancer-pca.png)  | ![](output/breast-cancer-fa.png) |
+| Mdr                               | Principal component analysis (PCA) | Feature Agglomeration            | Truncated SVD (aka LSA)           |
+| --------------------------------- | ---------------------------------- | -------------------------------- | --------------------------------- |
+| ![](output/breast-cancer-mdr.png) | ![](output/breast-cancer-pca.png)  | ![](output/breast-cancer-fa.png) | ![](output/breast-cancer-lsa.png) |
 
 **Dependencies**
 

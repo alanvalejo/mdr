@@ -52,6 +52,6 @@ recs = []
 for i in range(0, len(class_colours)):
 	recs.append(mpatches.Circle((0, 0), fc=class_colours[i], alpha=0.6))
 leg_param = dict(prop={'size': 16}, ncol=1, fancybox=True, shadow=False, frameon=False)
-axes.legend(recs, classes, loc='upper left', **leg_param)
+axes.legend(recs, classes, loc='best', **leg_param)
 
 plt.savefig('output/' + sys.argv[1] + '-mdr.png', dpi=100, bbox_inches='tight', transparent=False, pad_inches=0)

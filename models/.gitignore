@@ -3,21 +3,10 @@
 
 # But not these files...
 !.gitignore
-!README.md
 !__init__.py
-!COPYING.md
-!args
-!input
-!output
-!models
-!args/*
-!mdr-mob.py
-!mdr-opm.py
-!mob.so
+!args.so
 !helper.so
 !helperigraph.so
+!mob.so
 !similarity.so
-!args.so
 !timing.so
-!plot2D.py
-!plot2Dmdr.py
