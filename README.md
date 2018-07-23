@@ -15,6 +15,17 @@ This is an Python implementation of multilevel dimensionality reduction, publish
 	$ python mdr-mob.py [options]
 	$ python mdr-opm.py [options]
 
+> You can load the parameters from a .json file.
+
+	$ python mdr-mob.py -cnf input/iris-mdr-rgmb.json
+
+> You can use the software from sklearn pattern class.
+
+	$ from skl.mdr import MDR
+	$ from sklearn import datasets
+	$ data = datasets.load_iris()
+	$ X_reduced = MDR(max_levels=1, reduction_factor=0.5).transform(data.data)
+
 | Option             | Domain        | Default   | Description                          |
 | ------------------ | ------------- | --------- | ------------------------------------ |
 | -in --input        | string [FILE] | None      | name of the input file to be loaded  |
@@ -65,28 +76,43 @@ For both scripts, mdr-mob.py and mdr-opm.py you can use:
 * Hub Depressed
 * Leicht Holme Newman
 
+**Dependencies**
+
+* Python: tested with version 2.7.13.
+* Packages required: [igraph](http://igraph.sourceforge.net); [scipy](http://www.scipy.org/); [sklearn](http://scikit-learn.org/); [numpy](http://www.numpy.org/)
+
+**Anaconda**
+
+	$ export PATH=~/anaconda3/bin:$PATH
+	$ conda create --name python27 python=2.7
+	$ source activate python27
+	$ conda install -c anaconda numpy scikit-learn (in same cases use numpy=1.13)
+	$ conda install -c conda-forge python-igraph
+
 **Quick benchmark results**
 
-We test a scientific collaboration network (Cond-Mat), available [here](https://toreopsahl.com/datasets/#newman2001), which is based on preprints posted in the Condensed Matter section (arXiv) between 1995 and 1999 and has 38.742 vertices (authors and papers) and 58.595 edges (authorship) among different types of vertices.
+We test three well-known datasets (Iris, Wine and Breast Cancer) and three well-known dimensionality reduction algorithm (PCA, FA and LSA).
 
 	# Mdr using Greed Rand Twohopes coarsening algorithm (Execute more time to find the best result)
-	$ python mdr-mob.py -cnf input/iris-mdr-rgmb.json; python plot2Dmdr.py iris
+	$ python plot2D.py wine mdr 1 0.5 greedy_seed_twohops
 
 	# Mdr using Greed Twohopes coarsening algorithm
-	$ python mdr-mob.py -cnf input/wine-mdr-gmb.json; python plot2Dmdr.py wine
-	$ python mdr-mob.py -cnf input/breast-cancer-mdr-gmb.json; python plot2Dmdr.py breast-cancer
+	$ python plot2D.py wine mdr 3 0.5 greedy_twohops
+
+	# Mdr using HEM coarsening algorithm
+	$ python plot2D.py breast-cancer mdr 4 0.5 HEM
 
 	# Principal component analysis (PCA)
 	$ python plot2D.py pca iris
 	$ python plot2D.py pca wine
 	$ python plot2D.py pca breast-cancer
 
-	# Feature Agglomeration
+	# Feature Agglomeration (FA)
 	$ python plot2D.py fa iris
 	$ python plot2D.py fa wine
 	$ python plot2D.py fa breast-cancer
 
-	# Feature Agglomeration
+	# Truncated SVD (aka LSA)
 	$ python plot2D.py lsa iris
 	$ python plot2D.py lsa wine
 	$ python plot2D.py lsa breast-cancer
@@ -108,11 +134,6 @@ We test a scientific collaboration network (Cond-Mat), available [here](https://
 | Mdr                               | Principal component analysis (PCA) | Feature Agglomeration            | Truncated SVD (aka LSA)           |
 | --------------------------------- | ---------------------------------- | -------------------------------- | --------------------------------- |
 | ![](output/breast-cancer-mdr.png) | ![](output/breast-cancer-pca.png)  | ![](output/breast-cancer-fa.png) | ![](output/breast-cancer-lsa.png) |
-
-**Dependencies**
-
-* Python: tested with version 2.7.13.
-* Packages required: [igraph](http://igraph.sourceforge.net); [scipy](http://www.scipy.org/); [sklearn](http://scikit-learn.org/); [numpy](http://www.numpy.org/)
 
 **Known Bugs**
 
