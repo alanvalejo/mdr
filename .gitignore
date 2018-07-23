@@ -9,15 +9,7 @@
 !args
 !input
 !output
+!skl
 !models
-!args/*
-!mdr-mob.py
-!mdr-opm.py
-!mob.so
-!helper.so
-!helperigraph.so
-!similarity.so
-!args.so
-!timing.so
+!mdr.py
 !plot2D.py
-!plot2Dmdr.py

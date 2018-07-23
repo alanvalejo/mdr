@@ -127,8 +127,13 @@ def main():
 			graph['similarity'] = getattr(Similarity(graph, graph['adjlist']), options.similarity)
 			start = sum(graph['vertices'][0:1])
 			end = sum(graph['vertices'][0:1 + 1])
-			matching_method = getattr(graph, options.matching)
-			matching_method(range(start, end), matching, reduction_factor=options.reduction_factor)
+			if options.matching in ['hem', 'lem', 'rm']:
+				one_mode_graph = graph.weighted_one_mode_projection(vertices)
+				matching_method = getattr(one_mode_graph, options.matching)
+				matching_method(matching, reduction_factor=options.reduction_factor)
+			else:
+				matching_method = getattr(graph, options.matching)
+				matching_method(range(start, end), matching, reduction_factor=options.reduction_factor)
 
 			coarse = graph.contract(matching)
 			coarse['level'] = levels
