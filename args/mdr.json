@@ -61,14 +61,14 @@
 		"help": "reduction factor"
 	},
 	"m": {
-		"long": "ml",
+		"long": "max_levels",
 		"required": false,
-		"dest": "ml",
+		"dest": "max_levels",
 		"type": "int",
-		"nargs": "?",
+		"nargs": "+",
 		"action": "store",
 		"default": null,
-		"help": "max levels"
+		"help": "max levels for each layer"
 	},
 	"c": {
 		"long": "matching",
@@ -153,6 +153,14 @@
 		"action": "store_true",
 		"default": false,
 		"help": "save hierarchy file"
+	},
+	"st": {
+		"long": "show_timing",
+		"required": false,
+		"dest": "show_timing",
+		"action": "store_true",
+		"default": false,
+		"help": "show timing"
 	},
 	"slc": {
 		"long": "skip_last_column",

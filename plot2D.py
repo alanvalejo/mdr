@@ -34,7 +34,7 @@ y = X_reduced[:, 1]
 labels = data.target
 formatter = plt.FuncFormatter(lambda i, *args: target[int(i)])
 
-size = (5, 4)
+size = (30, 30)
 ylabel = 'y'
 xlabel = 'x'
 title = 'Iris 2D'
@@ -42,7 +42,10 @@ title = 'Iris 2D'
 plt.rc('text', usetex=True)
 plt.rc('font', family='serif')
 plt.rc('font', serif='Times')
-plt.figure(figsize=size)
+plt.figure()
+fig = plt.gcf()
+DPI = fig.get_dpi()
+fig.set_size_inches(500.0/float(DPI), 500.0/float(DPI))
 sc = plt.scatter(x, y, c=labels, alpha=0.5)
 plt.grid(True, linestyle=":", color='black', alpha=0.2, linewidth=0.5)
 plt.xlabel(xlabel, fontsize=15, labelpad=15)

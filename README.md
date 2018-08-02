@@ -94,31 +94,36 @@ For both scripts, mdr-mob.py and mdr-opm.py you can use:
 
 **Quick benchmark results**
 
-We test three well-known datasets (Iris, Wine and Breast Cancer) and three well-known dimensionality reduction algorithm (PCA, FA and LSA).
+We test three well-known datasets (Iris, Wine and Breast Cancer) and three well-known dimensionality reduction algorithm (PCA, FA, LSA, TSNA). All algorithms were execute with default parameters.
 
 	# Mdr using Greed Rand Twohopes coarsening algorithm (Execute more time to find the best result)
-	$ python plot2D.py wine mdr 1 0.5 greedy_seed_twohops
+	$ python plot2D.py iris mdr 1 0.5 greedy_seed_twohops
 
 	# Mdr using Greed Twohopes coarsening algorithm
 	$ python plot2D.py wine mdr 3 0.5 greedy_twohops
 
 	# Mdr using HEM coarsening algorithm
-	$ python plot2D.py breast-cancer mdr 4 0.5 HEM
+	$ python plot2D.py breast-cancer mdr 4 0.5 hem
 
 	# Principal component analysis (PCA)
-	$ python plot2D.py pca iris
-	$ python plot2D.py pca wine
-	$ python plot2D.py pca breast-cancer
+	$ python plot2D.py iris pca
+	$ python plot2D.py wine pca
+	$ python plot2D.py breast-cancer pca
 
 	# Feature Agglomeration (FA)
-	$ python plot2D.py fa iris
-	$ python plot2D.py fa wine
-	$ python plot2D.py fa breast-cancer
+	$ python plot2D.py iris fa
+	$ python plot2D.py wine fa
+	$ python plot2D.py breast-cancer fa
 
 	# Truncated SVD (aka LSA)
-	$ python plot2D.py lsa iris
-	$ python plot2D.py lsa wine
-	$ python plot2D.py lsa breast-cancer
+	$ python plot2D.py iris lsa
+	$ python plot2D.py wine lsa
+	$ python plot2D.py breast-cancer lsa
+
+	# t-distributed Stochastic Neighbor Embedding (TSNE)
+	$ python plot2D.py iris tsne
+	$ python plot2D.py wine tsne
+	$ python plot2D.py breast-cancer tsne
 
 **Iris**
 
@@ -126,10 +131,13 @@ We test three well-known datasets (Iris, Wine and Breast Cancer) and three well-
 | ------------------------ | ---------------------------------- |
 | ![](output/iris-mdr.png) | ![](output/iris-pca.png)           |
 
-| Feature Agglomeration   | Truncated SVD (aka LSA)  | t-distributed Stochastic Neighbor Embedding |
-| ----------------------- | ------------------------ | ------------------------------------------- |
-| ![](output/iris-fa.png) | ![](output/iris-lsa.png) | ![](output/iris-tsne.png)                   |
+| Feature Agglomeration   | Truncated SVD (aka LSA)  |
+| ----------------------- | ------------------------ |
+| ![](output/iris-fa.png) | ![](output/iris-lsa.png) |
 
+| t-distributed Stochastic Neighbor Embedding |
+| ------------------------------------------- |
+| ![](output/iris-tsne.png)                   |
 
 **Wine**
 
@@ -137,9 +145,14 @@ We test three well-known datasets (Iris, Wine and Breast Cancer) and three well-
 | ------------------------ | ---------------------------------- |
 | ![](output/wine-mdr.png) | ![](output/wine-pca.png)           |
 
-| Feature Agglomeration   | Truncated SVD (aka LSA)  | t-distributed Stochastic Neighbor Embedding |
-| ----------------------- | ------------------------ | ------------------------------------------- |
-| ![](output/wine-fa.png) | ![](output/wine-lsa.png) | ![](output/wine-tsne.png)                   |
+| Feature Agglomeration   | Truncated SVD (aka LSA)  |
+| ----------------------- | ------------------------ |
+| ![](output/wine-fa.png) | ![](output/wine-lsa.png) |
+
+| t-distributed Stochastic Neighbor Embedding |
+| ------------------------------------------- |
+| ![](output/wine-tsne.png)                   |
+
 
 **Breast Cancer**
 
@@ -147,9 +160,13 @@ We test three well-known datasets (Iris, Wine and Breast Cancer) and three well-
 | --------------------------------- | ---------------------------------- |
 | ![](output/breast-cancer-mdr.png) | ![](output/breast-cancer-pca.png)  |
 
-| Feature Agglomeration            | Truncated SVD (aka LSA)           | t-distributed Stochastic Neighbor Embedding |
-| -------------------------------- | --------------------------------- | ------------------------------------------- |
-| ![](output/breast-cancer-fa.png) | ![](output/breast-cancer-lsa.png) | ![](output/breast-cancer-tsne.png)          |
+| Feature Agglomeration            | Truncated SVD (aka LSA)           |
+| -------------------------------- | --------------------------------- |
+| ![](output/breast-cancer-fa.png) | ![](output/breast-cancer-lsa.png) |
+
+| t-distributed Stochastic Neighbor Embedding |
+| ------------------------------------------- |
+| ![](output/breast-cancer-tsne.png)          |
 
 **Known Bugs**
 
