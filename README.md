@@ -53,28 +53,31 @@ This is an Python implementation of multilevel dimensionality reduction, publish
 The matching strategy selects the best pairs of vertices for matching. Formally, a matching $M$ can be denoted by a set of pairwise non-adjacent edges, i.e., a set of edges with no common vertices. In this software it is possible use two matching methods:
 
 For mdr-mob.py use:
-* Greed Rand Twohopes
-* Greed Twohopes
+
+> * Greed Rand Twohopes
+> * Greed Twohopes
 
 For mdr-opm.py use:
-* Hem
-* Lem
-* Rm
+
+> * Hem
+> * Lem
+> * Rm
 
 The matching strategy is, therefore, a key component of an effective multilevel optimization, as it leads to a good hierarchy of coarsened networks for supporting the local search algorithm. A poor choice of the matching impairs the multilevel process, hence, the performance of the local search algorithm. In this software it is possible use some similarity measures:
 
 For both scripts, mdr-mob.py and mdr-opm.py you can use:
-* Common Neighbors
-* Weighted Common Neighbors
-* Preferential Attachment
-* Jaccard
-* Salton
-* Adamic Adar
-* Resource Allocation
-* Sorensen
-* Hub Promoted
-* Hub Depressed
-* Leicht Holme Newman
+
+> * Common Neighbors
+> * Weighted Common Neighbors
+> * Preferential Attachment
+> * Jaccard
+> * Salton
+> * Adamic Adar
+> * Resource Allocation
+> * Sorensen
+> * Hub Promoted
+> * Hub Depressed
+> * Leicht Holme Newman
 
 **Dependencies**
 
@@ -119,21 +122,34 @@ We test three well-known datasets (Iris, Wine and Breast Cancer) and three well-
 
 **Iris**
 
-| Mdr                      | Principal component analysis (PCA) | Feature Agglomeration   | Truncated SVD (aka LSA)  |
-| ------------------------ | ---------------------------------- | ----------------------- | ------------------------ |
-| ![](output/iris-mdr.png) | ![](output/iris-pca.png)           | ![](output/iris-fa.png) | ![](output/iris-lsa.png) |
+| Mdr                      | Principal component analysis (PCA) |
+| ------------------------ | ---------------------------------- |
+| ![](output/iris-mdr.png) | ![](output/iris-pca.png)           |
+
+| Feature Agglomeration   | Truncated SVD (aka LSA)  | t-distributed Stochastic Neighbor Embedding |
+| ----------------------- | ------------------------ | ------------------------------------------- |
+| ![](output/iris-fa.png) | ![](output/iris-lsa.png) | ![](output/iris-tsne.png)                   |
+
 
 **Wine**
 
-| Mdr                      | Principal component analysis (PCA) | Feature Agglomeration   | Truncated SVD (aka LSA)  |
-| ------------------------ | ---------------------------------- | ----------------------- | ------------------------ |
-| ![](output/wine-mdr.png) | ![](output/wine-pca.png)           | ![](output/wine-fa.png) | ![](output/wine-lsa.png) |
+| Mdr                      | Principal component analysis (PCA) |
+| ------------------------ | ---------------------------------- |
+| ![](output/wine-mdr.png) | ![](output/wine-pca.png)           |
+
+| Feature Agglomeration   | Truncated SVD (aka LSA)  | t-distributed Stochastic Neighbor Embedding |
+| ----------------------- | ------------------------ | ------------------------------------------- |
+| ![](output/wine-fa.png) | ![](output/wine-lsa.png) | ![](output/wine-tsne.png)                   |
 
 **Breast Cancer**
 
-| Mdr                               | Principal component analysis (PCA) | Feature Agglomeration            | Truncated SVD (aka LSA)           |
-| --------------------------------- | ---------------------------------- | -------------------------------- | --------------------------------- |
-| ![](output/breast-cancer-mdr.png) | ![](output/breast-cancer-pca.png)  | ![](output/breast-cancer-fa.png) | ![](output/breast-cancer-lsa.png) |
+| Mdr                               | Principal component analysis (PCA) |
+| --------------------------------- | ---------------------------------- |
+| ![](output/breast-cancer-mdr.png) | ![](output/breast-cancer-pca.png)  |
+
+| Feature Agglomeration            | Truncated SVD (aka LSA)           | t-distributed Stochastic Neighbor Embedding |
+| -------------------------------- | --------------------------------- | ------------------------------------------- |
+| ![](output/breast-cancer-fa.png) | ![](output/breast-cancer-lsa.png) | ![](output/breast-cancer-tsne.png)          |
 
 **Known Bugs**
 

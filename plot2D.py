@@ -4,6 +4,7 @@ from sklearn.decomposition import PCA
 import matplotlib.patches as mpatches
 from sklearn.cluster import FeatureAgglomeration
 from sklearn.decomposition import TruncatedSVD
+from sklearn.manifold import TSNE
 from skl.mdr import MDR
 import sys
 
@@ -23,6 +24,8 @@ elif sys.argv[2] == 'lsa':
 	X_reduced = TruncatedSVD(n_components=2, n_iter=7, random_state=42).fit_transform(data.data)
 elif sys.argv[2] == 'fa':
 	X_reduced = FeatureAgglomeration(n_clusters=2).fit_transform(data.data)
+elif sys.argv[2] == 'tsne':
+	X_reduced = TSNE(n_components=2).fit_transform(data.data)
 elif sys.argv[2] == 'mdr':
 	X_reduced = MDR(max_levels=int(sys.argv[3]), reduction_factor=float(sys.argv[4]), matching=sys.argv[5]).transform(data.data)
 
