@@ -62,7 +62,8 @@ def main():
 	with timing.timeit_context_add('Pre-processing'):
 
 		# Setup parse options command line
-		parser = args.setup_parser('args/mdr.json')
+		current_path = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
+		parser = args.setup_parser(current_path + '/args/mdr.json')
 		options = parser.parse_args()
 		args.update_json(options)
 		args.check_output(options)
@@ -85,7 +86,7 @@ def main():
 			options.similarity = 'weighted_common_neighbors'
 
 		# Validation of matching method
-		valid_matching = ['greedy_seed_twohops', 'greedy_twohops']
+		valid_matching = ['gmb', 'rgmb', 'hem', 'lem', 'rm']
 		if options.matching.lower() not in valid_matching:
 			log.warning('Matching method is unvalid.')
 			sys.exit(1)
@@ -97,7 +98,10 @@ def main():
 			sys.exit(1)
 
 		# Validation of similarity measure
-		valid_similarity = ['common_neighbors', 'weighted_common_neighbors', 'salton', 'preferential_attachment', 'jaccard', 'adamic_adar', 'resource_allocation', 'sorensen', 'hub_promoted', 'hub_depressed', 'leicht_holme_newman', 'weighted_jaccard']
+		valid_similarity = ['common_neighbors', 'weighted_common_neighbors',
+		'salton', 'preferential_attachment', 'jaccard', 'adamic_adar',
+		'resource_allocation', 'sorensen', 'hub_promoted', 'hub_depressed',
+		'leicht_holme_newman', 'weighted_jaccard']
 		if options.similarity.lower() not in valid_similarity:
 			log.warning('Similarity misure is unvalid.')
 			sys.exit(1)

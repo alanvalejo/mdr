@@ -39,6 +39,11 @@ import models.helper as helper
 import models.helperigraph as helperigraph
 from models.similarity import Similarity
 
+import sharedmem
+from multiprocessing import Process
+from matplotlib import pylab
+import matplotlib.pyplot as plt
+
 from sklearn.base import BaseEstimator, ClassifierMixin
 
 __maintainer__ = 'Alan Valejo'
@@ -59,7 +64,11 @@ class MDR(BaseEstimator, ClassifierMixin):
 			'max_levels': 3
 			, 'reduction_factor': 0.5
 			, 'similarity': 'weighted_common_neighbors'
-			, 'matching': 'greedy_twohops'
+			, 'matching': 'gmb'
+			, 'global_min_vertices': None
+			, 'upper_bound': 0.2
+			, 'tolerance': 0.01
+			, 'itr': 10
 			, 'logger': None
 		}
 
@@ -79,8 +88,7 @@ class MDR(BaseEstimator, ClassifierMixin):
 			sys.exit(1)
 
 		# Validation of matching method
-		valid_matching = ['greedy_seed_twohops', 'greedy_twohops', 'hem',
-		'lem', 'rm']
+		valid_matching = ['mlpb', 'nmlpb', 'gmb', 'rgmb', 'hem', 'lem', 'rm']
 		if self.matching.lower() not in valid_matching:
 			self.logger.warning('Matching method is unvalid.')
 			sys.exit(1)
@@ -88,7 +96,7 @@ class MDR(BaseEstimator, ClassifierMixin):
 	def fit(self, X):
 		pass
 
-	def transform(self, X):
+	def transform2(self, X):
 
 		self.g = helperigraph.load_matrix(X)
 		self.g['level'] = 0
@@ -103,16 +111,107 @@ class MDR(BaseEstimator, ClassifierMixin):
 			start = sum(self.g['vertices'][0:1])
 			end = sum(self.g['vertices'][0:1 + 1])
 			vertices = range(start, end)
+			param = dict(reduction_factor=self.reduction_factor)
+			if self.matching in ['gmb', 'rgmb']:
+				param['vertices'] = vertices
+
 			if self.matching in ['hem', 'lem', 'rm']:
 				one_mode_graph = self.g.weighted_one_mode_projection(vertices)
 				matching_method = getattr(one_mode_graph, self.matching)
-				matching_method(matching, reduction_factor=self.reduction_factor)
 			else:
 				matching_method = getattr(self.g, self.matching)
-				matching_method(vertices, matching, reduction_factor=self.reduction_factor)
+
+			matching_method(matching, **param)
 
 			coarse = self.g.contract(matching)
 			coarse['level'] = levels
 			self.g = coarse
+
+		return helperigraph.biajcent_matrix(self.g)
+
+	def transform(self, X):
+
+		self.g = helperigraph.load_matrix(X)
+		n =  self.g['vertices'][1]
+		self.g['level'] = 0
+
+		new_min = 0.1
+		new_max = 10
+		old_min = min(self.g.es['weight'])
+		old_max = max(self.g.es['weight'])
+		with open("../bnoc-src/output/cbrson.ncol", "w+") as f:
+			for e in self.g.es():
+				e['weight'] = helper.remap(e['weight'], old_min, old_max, new_min, new_max)
+				f.write(str(e.tuple[0]) + ' ' + str(e.tuple[1]) + ' ' + str(e['weight']) + '\n')
+
+		# print self.g.ecount()
+		# # print self.g['vertices']
+		# dd = self.g.degree_distribution()
+		# print dd
+		# print self.g['vertices']
+		# print 'grau zero', len(self.g.vs.select(_degree = 0))
+		# print 'grau um', len(self.g.vs.select(_degree = 1))
+		# print 'grau dois', len(self.g.vs.select(_degree = 2))
+		# print 'grau tres', len(self.g.vs.select(_degree = 3))
+		# print 'grau quatro', len(self.g.vs.select(_degree = 4))
+		# exit()
+		# plt.plot(dd).show()
+		# xs, ys = zip(*[(left, count) for left, _, count in self.g.degree_distribution().bins()])
+		# pylab.bar(xs, ys)
+		# pylab.show()
+
+		running = True
+		while running:
+			running = False
+
+			membership = range(self.g.vcount())
+			levels = self.g['level']
+			contract = False
+
+			matching_layer = True
+			if (self.global_min_vertices is None):
+				if levels >= self.max_levels:
+					matching_layer = False
+			elif (int(self.g['vertices'][1]) <= int(self.global_min_vertices)):
+				matching_layer = False
+
+			if matching_layer:
+				contract = True
+				running = True
+				levels += 1
+
+				self.g['similarity'] = getattr(Similarity(self.g, self.g['adjlist']), self.similarity)
+				start = sum(self.g['vertices'][0:1])
+				end = sum(self.g['vertices'][0:1 + 1])
+				vertices = range(start, end)
+
+				param = dict(reduction_factor=self.reduction_factor)
+
+				if self.matching in ['mlpb', 'nmlpb', 'nmb']:
+					param['upper_bound'] = self.upper_bound
+					param['n'] = n
+					param['global_min_vertices'] = self.global_min_vertices
+				if self.matching in ['mlpb', 'nmlpb', 'gmb', 'rgmb']:
+					param['vertices'] = vertices
+				if self.matching in ['mlpb']:
+					param['tolerance'] = self.tolerance
+					param['itr'] = self.itr
+
+				if self.matching in ['hem', 'lem', 'rm']:
+					one_mode_graph = self.g.weighted_one_mode_projection(vertices)
+					matching_method = getattr(one_mode_graph, self.matching)
+				else:
+					matching_method = getattr(self.g, self.matching)
+
+				matching_method(membership, **param)
+
+			if contract:
+				coarse = self.g.contract(membership)
+				coarse['level'] = levels
+
+				if coarse.vcount() == self.g.vcount():
+					break
+
+				self.g = coarse
 
 		return helperigraph.biajcent_matrix(self.g)
