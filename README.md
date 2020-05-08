@@ -127,46 +127,21 @@ We test three well-known datasets (Iris, Wine and Breast Cancer) and three well-
 
 **Iris**
 
-| Mdr                      | Principal component analysis (PCA) |
-| ------------------------ | ---------------------------------- |
-| ![](output/iris-mdr.png) | ![](output/iris-pca.png)           |
-
-| Feature Agglomeration   | Truncated SVD (aka LSA)  |
-| ----------------------- | ------------------------ |
-| ![](output/iris-fa.png) | ![](output/iris-lsa.png) |
-
-| t-distributed Stochastic Neighbor Embedding |
-| ------------------------------------------- |
-| ![](output/iris-tsne.png)                   |
+| Mdr                      | Principal component analysis (PCA) | Feature Agglomeration   | Truncated SVD (aka LSA)  |
+| ------------------------ | ---------------------------------- | ----------------------- | ------------------------ |
+| ![](output/iris-mdr.png) | ![](output/iris-pca.png)           | ![](output/iris-fa.png) | ![](output/iris-lsa.png) |
 
 **Wine**
 
-| Mdr                      | Principal component analysis (PCA) |
-| ------------------------ | ---------------------------------- |
-| ![](output/wine-mdr.png) | ![](output/wine-pca.png)           |
-
-| Feature Agglomeration   | Truncated SVD (aka LSA)  |
-| ----------------------- | ------------------------ |
-| ![](output/wine-fa.png) | ![](output/wine-lsa.png) |
-
-| t-distributed Stochastic Neighbor Embedding |
-| ------------------------------------------- |
-| ![](output/wine-tsne.png)                   |
-
+| Mdr                      | Principal component analysis (PCA) | Feature Agglomeration   | Truncated SVD (aka LSA)  |
+| ------------------------ | ---------------------------------- | ----------------------- | ------------------------ |
+| ![](output/wine-mdr.png) | ![](output/wine-pca.png)           | ![](output/wine-fa.png) | ![](output/wine-lsa.png) |
 
 **Breast Cancer**
 
-| Mdr                               | Principal component analysis (PCA) |
-| --------------------------------- | ---------------------------------- |
-| ![](output/breast-cancer-mdr.png) | ![](output/breast-cancer-pca.png)  |
-
-| Feature Agglomeration            | Truncated SVD (aka LSA)           |
-| -------------------------------- | --------------------------------- |
-| ![](output/breast-cancer-fa.png) | ![](output/breast-cancer-lsa.png) |
-
-| t-distributed Stochastic Neighbor Embedding |
-| ------------------------------------------- |
-| ![](output/breast-cancer-tsne.png)          |
+| Mdr                               | Principal component analysis (PCA) | Feature Agglomeration            | Truncated SVD (aka LSA)           |
+| --------------------------------- | ---------------------------------- | -------------------------------- | --------------------------------- |
+| ![](output/breast-cancer-mdr.png) | ![](output/breast-cancer-pca.png)  | ![](output/breast-cancer-fa.png) | ![](output/breast-cancer-lsa.png) |
 
 **Known Bugs**
 
