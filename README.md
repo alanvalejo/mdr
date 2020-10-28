@@ -151,7 +151,7 @@ Please contact the author for problems and bug report.
 
 * Alan Valejo.
 * Ph.D. candidate at University of São Paolo (USP), Brazil.
-* alanvalejo@gmail.com.
+* alanvalejo@gmail.com
 
 **License (COPYING.md)**
 
